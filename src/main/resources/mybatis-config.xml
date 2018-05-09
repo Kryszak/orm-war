@@ -19,7 +19,7 @@
     </environments>
 
     <mappers>
-        <mapper class="com.pp.mybatis.MyBatisMapper"></mapper>
+        <mapper class="com.pp.mybatis.MyBatisMapper"/>
     </mappers>
 
 </configuration>

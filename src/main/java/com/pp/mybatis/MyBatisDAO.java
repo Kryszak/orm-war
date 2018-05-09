@@ -11,7 +11,7 @@ public class MyBatisDAO {
         MyBatisMapper mapper = sqlSession.getMapper(MyBatisMapper.class);
 
         // wywołanie
-        String fromDB = mapper.testSelect();
+        Test fromDB = mapper.testSelect();
         System.out.println("Got response from DB: " + fromDB);
 
         // commit i zamknięcie sesji
