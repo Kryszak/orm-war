@@ -11,8 +11,13 @@ public class MyBatisDAO {
         SqlSession sqlSession = MyBatisConnection.getSqlSessionFactory().openSession();
         MyBatisMapper mapper = sqlSession.getMapper(MyBatisMapper.class);
 
+        Test test = new Test("inserted from java into mybatis");
+
         // wywołanie
         Test fromDB = mapper.testSelect();
+        mapper.createTable();
+        mapper.insertTest(test);
+        
         System.out.println("Got response from DB: " + fromDB);
 
         // commit i zamknięcie sesji

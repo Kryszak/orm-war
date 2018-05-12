@@ -9,6 +9,8 @@ out/
 .idea/
 target/
 
+src/main/resources/*.csv
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
