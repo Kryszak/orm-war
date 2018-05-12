@@ -42,6 +42,12 @@
             <version>5.2.17.Final</version>
         </dependency>
 
+        <!-- Guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>25.0-jre</version>
+        </dependency>
 
     </dependencies>
 

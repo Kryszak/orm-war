@@ -1,8 +1,7 @@
 package com.pp.hibernate;
 
+import com.pp.hibernate.model.Test;
 import org.hibernate.Session;
-
-import java.util.List;
 
 public class HibernateDAO {
 

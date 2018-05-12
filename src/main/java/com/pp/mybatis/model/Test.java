@@ -1,4 +1,4 @@
-package com.pp.mybatis;
+package com.pp.mybatis.model;
 
 public class Test {
 
