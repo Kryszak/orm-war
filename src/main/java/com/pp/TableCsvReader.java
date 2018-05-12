@@ -21,8 +21,10 @@ public class TableCsvReader {
 
     public static final String USERS_TABLE_FILE = "imdb_MovieLens_users.csv";
 
+    public static final String SEPARATOR = ",";
+
     public Stream<String> streamTableFile(String path) throws IOException {
-        return Files.lines(Paths.get(path));
+        return Files.lines(Paths.get(getClass().getClassLoader().getResource(path).getPath()));
     }
 
 }

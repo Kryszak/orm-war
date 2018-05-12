@@ -10,11 +10,22 @@
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password"></property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
+
+        <property name="hibernate.jdbc.batch_size">1000</property>
+        <property name="hibernate.order_inserts">true</property>
+        <property name="hibernate.order_updates">true</property>
+        <property name="hibernate.jdbc.batch_versioned_data">true</property>
         <!-- auto create and update schema -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!-- mappings -->
-        <mapping class="com.pp.hibernate.model.Test"></mapping>
+        <mapping class="com.pp.hibernate.model.Actor"></mapping>
+        <mapping class="com.pp.hibernate.model.Director"></mapping>
+        <mapping class="com.pp.hibernate.model.Movie"></mapping>
+        <mapping class="com.pp.hibernate.model.Movie2Actor"></mapping>
+        <mapping class="com.pp.hibernate.model.Movie2Director"></mapping>
+        <mapping class="com.pp.hibernate.model.U2Base"></mapping>
+        <mapping class="com.pp.hibernate.model.User"></mapping>
     </session-factory>
 </hibernate-configuration>

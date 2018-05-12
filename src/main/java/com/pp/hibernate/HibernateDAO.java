@@ -1,19 +1,23 @@
 package com.pp.hibernate;
 
-import com.pp.hibernate.model.Test;
+import com.pp.hibernate.model.Actor;
+import com.pp.hibernate.model.Movie;
+import com.pp.hibernate.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class HibernateDAO {
+
+
 
     public void test() {
         Session session = HibernateConnection.getSessionFactory().openSession();
 
-        insert();
+        List<User> actor = (List<User>) session.createQuery("FROM User").setMaxResults(1).list();
 
-        Test test = (Test) session.createQuery("FROM Test").setMaxResults(1).list().get(0);
-
-        System.out.println("Retrieved from DB: " + test);
+        System.out.println("Retrieved from DB: " + actor);
 
         session.close();
 
@@ -23,11 +27,9 @@ public class HibernateDAO {
     public void insert() {
         Session session = HibernateConnection.getSessionFactory().openSession();
 
-        Test test = new Test("hibernate from code message");
-
         Transaction transaction = session.beginTransaction();
 
-        session.saveOrUpdate(test);
+        session.saveOrUpdate(null);
 
         transaction.commit();
 
