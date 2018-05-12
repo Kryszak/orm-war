@@ -17,7 +17,7 @@ public class TableCsvReader {
 
     public static final String MOVIES_2_DIRECTORS_TABLE_FILE = "imdb_MovieLens_movies2directors.csv";
 
-    public static final String U2BASE_TABLE_FILE = "imdb_MovieLens_users.csv";
+    public static final String U2BASE_TABLE_FILE = "imdb_MovieLens_u2base.csv";
 
     public static final String USERS_TABLE_FILE = "imdb_MovieLens_users.csv";
 

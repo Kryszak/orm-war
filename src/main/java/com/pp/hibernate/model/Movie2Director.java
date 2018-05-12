@@ -1,21 +1,22 @@
 package com.pp.hibernate.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@IdClass(Movie2Director.Movie2DirectorPK.class)
 @Table(name = "movies2directors", indexes = {
-        @Index(columnList = "genre", name = "genre")
+        @Index(columnList = "genre", name = "genre"),
+        @Index(columnList = "movieid,directorid", name = "fakepk_m2d")
 })
 public class Movie2Director {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @OneToOne
     @JoinColumn(name = "movieid")
     private Movie movieId;
 
-    @Id
     @OneToOne
     @JoinColumn(name = "directorid")
     private Director directorId;
@@ -26,10 +27,11 @@ public class Movie2Director {
     public Movie2Director() {
     }
 
-    public Movie2Director(Movie movieId, Director directorId, String genre) {
+    public Movie2Director(Movie movieId, Director directorId, String genre, int id) {
         this.movieId = movieId;
         this.directorId = directorId;
         this.genre = genre;
+        this.id = id;
     }
 
     public Movie getMovieId() {
@@ -56,36 +58,12 @@ public class Movie2Director {
         this.genre = genre;
     }
 
-    @Embeddable
-    public class Movie2DirectorPK implements Serializable {
+    public int getId() {
+        return id;
+    }
 
-        private long movieId;
-
-        private long directorId;
-
-        public Movie2DirectorPK() {
-        }
-
-        public Movie2DirectorPK(long movieId, long directorId) {
-            this.movieId = movieId;
-            this.directorId = directorId;
-        }
-
-        public long getMovieId() {
-            return movieId;
-        }
-
-        public void setMovieId(long movieId) {
-            this.movieId = movieId;
-        }
-
-        public long getDirectorId() {
-            return directorId;
-        }
-
-        public void setDirectorId(long directorId) {
-            this.directorId = directorId;
-        }
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

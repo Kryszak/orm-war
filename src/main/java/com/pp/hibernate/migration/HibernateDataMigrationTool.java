@@ -9,6 +9,7 @@ import com.pp.hibernate.model.Movie;
 import com.pp.hibernate.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +25,6 @@ public class HibernateDataMigrationTool {
 
     private static final int BATCH_SIZE = 10000;
 
-
     public void migrateData() throws IOException {
         System.out.println("Migrating data using Hibernate ORM...");
         Stopwatch stopwatch = Stopwatch.createStarted();
@@ -37,6 +37,12 @@ public class HibernateDataMigrationTool {
         insertMovies();
         System.out.println("User file migration");
         insertUsers();
+        System.out.println("Movies2Actors file migration");
+        insertMovies2Actors();
+        System.out.println("Movies2Directors file migration");
+        insertMovies2Directors();
+        System.out.println("U2Base file migration");
+        insertU2Base();
 
         stopwatch.stop();
         System.out.println("Data migrated using Hibernate in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
@@ -56,6 +62,18 @@ public class HibernateDataMigrationTool {
 
     private void insertUsers() throws IOException {
         insertData(USERS_TABLE_FILE, this::saveUser);
+    }
+
+    private void insertMovies2Actors() throws IOException {
+        insertData(MOVIES_2_ACTORS_TABLE_FILE, this::saveMovie2Actor);
+    }
+
+    private void insertMovies2Directors() throws IOException {
+        insertData(MOVIES_2_DIRECTORS_TABLE_FILE, this::saveMovie2Director);
+    }
+
+    private void insertU2Base() throws IOException {
+        insertData(U2BASE_TABLE_FILE, this::saveU2Base);
     }
 
     private void insertData(String file, BiConsumer<Session, String[]> consumer) throws IOException {
@@ -99,6 +117,33 @@ public class HibernateDataMigrationTool {
     private void saveUser(Session session, String[] split) {
         User user = new User(Long.parseLong(split[0]), split[1], split[2], split[3]);
         session.save(user);
+    }
+
+    private void saveMovie2Actor(Session session, String[] split) {
+        NativeQuery insert = session.createNativeQuery(
+                "INSERT INTO movies2actors(movieid,actorid,cast_num) VALUES (?, ?, ?)");
+        insert.setParameter(1, Long.parseLong(split[0]));
+        insert.setParameter(2, Long.parseLong(split[1]));
+        insert.setParameter(3, Integer.parseInt(split[2]));
+        insert.executeUpdate();
+    }
+
+    private void saveMovie2Director(Session session, String[] split) {
+        NativeQuery insert = session.createNativeQuery(
+                "INSERT INTO movies2directors(movieid,directorid,genre) VALUES (?,?,?)");
+        insert.setParameter(1, Long.parseLong(split[0]));
+        insert.setParameter(2, Long.parseLong(split[1]));
+        insert.setParameter(3, split[2]);
+        insert.executeUpdate();
+    }
+
+    private void saveU2Base(Session session, String[] split) {
+        NativeQuery insert = session.createNativeQuery(
+                "INSERT INTO u2base(userid,movieid,rating) VALUES (?,?,?)");
+        insert.setParameter(1, Long.parseLong(split[0]));
+        insert.setParameter(2, Long.parseLong(split[1]));
+        insert.setParameter(3, split[2]);
+        insert.executeUpdate();
     }
 
     private void flushBatch(Session session) {

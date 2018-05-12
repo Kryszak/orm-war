@@ -1,21 +1,22 @@
 package com.pp.hibernate.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@IdClass(U2Base.U2BasePK.class)
 @Table(name = "u2base", indexes = {
-        @Index(columnList = "rating", name = "rating")
+        @Index(columnList = "rating", name = "rating"),
+        @Index(columnList = "userid,movieid", name = "fakepk_u2b")
 })
 public class U2Base {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @OneToOne
     @JoinColumn(name = "userid")
     private User userId;
 
-    @Id
     @OneToOne
     @JoinColumn(name = "movieid")
     private Movie movieId;
@@ -26,10 +27,11 @@ public class U2Base {
     public U2Base() {
     }
 
-    public U2Base(User userId, Movie movieId, String rating) {
+    public U2Base(User userId, Movie movieId, String rating, int id) {
         this.userId = userId;
         this.movieId = movieId;
         this.rating = rating;
+        this.id = id;
     }
 
     public User getUserId() {
@@ -56,36 +58,12 @@ public class U2Base {
         this.rating = rating;
     }
 
-    @Embeddable
-    public class U2BasePK implements Serializable {
+    public int getId() {
+        return id;
+    }
 
-        private long userId;
-
-        private long movieId;
-
-        public U2BasePK() {
-        }
-
-        public U2BasePK(long userId, long movieId) {
-            this.userId = userId;
-            this.movieId = movieId;
-        }
-
-        public long getUserId() {
-            return userId;
-        }
-
-        public void setUserId(long userId) {
-            this.userId = userId;
-        }
-
-        public long getMovieId() {
-            return movieId;
-        }
-
-        public void setMovieId(long movieId) {
-            this.movieId = movieId;
-        }
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override

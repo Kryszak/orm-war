@@ -1,21 +1,22 @@
 package com.pp.hibernate.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
-@IdClass(Movie2Actor.Movie2ActorPK.class)
 @Table(name = "movies2actors", indexes = {
-        @Index(columnList = "cast_num", name = "cast_num")
+        @Index(columnList = "cast_num", name = "cast_num"),
+        @Index(columnList = "movieid,actorid", name = "fakepk_m2a")
 })
 public class Movie2Actor {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     @OneToOne
     @JoinColumn(name = "movieid")
     private Movie movieId;
 
-    @Id
     @OneToOne
     @JoinColumn(name = "actorid")
     private Actor actorId;
@@ -26,49 +27,51 @@ public class Movie2Actor {
     public Movie2Actor() {
     }
 
-    public Movie2Actor(Movie movieId, Actor actorId, int castNum) {
+    public Movie2Actor(Movie movieId, Actor actorId, int castNum, int id) {
         this.movieId = movieId;
         this.actorId = actorId;
         this.castNum = castNum;
+        this.id = id;
     }
 
-    @Embeddable
-    public class Movie2ActorPK implements Serializable {
+    public Movie getMovieId() {
+        return movieId;
+    }
 
-        private long movieId;
+    public void setMovieId(Movie movieId) {
+        this.movieId = movieId;
+    }
 
-        private long actorId;
+    public Actor getActorId() {
+        return actorId;
+    }
 
-        public Movie2ActorPK() {
-        }
+    public void setActorId(Actor actorId) {
+        this.actorId = actorId;
+    }
 
-        public Movie2ActorPK(long movieId, long actorId) {
-            this.movieId = movieId;
-            this.actorId = actorId;
-        }
+    public int getCastNum() {
+        return castNum;
+    }
 
-        public long getMovieId() {
-            return movieId;
-        }
+    public void setCastNum(int castNum) {
+        this.castNum = castNum;
+    }
 
-        public void setMovieId(long movieId) {
-            this.movieId = movieId;
-        }
+    public int getId() {
+        return id;
+    }
 
-        public long getActorId() {
-            return actorId;
-        }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        public void setActorId(long actorId) {
-            this.actorId = actorId;
-        }
-
-        @Override
-        public String toString() {
-            return "Movie2ActorPK{" +
-                    "movieId=" + movieId +
-                    ", actorId=" + actorId +
-                    '}';
-        }
+    @Override
+    public String toString() {
+        return "Movie2Actor{" +
+                "movieId=" + movieId +
+                ", actorId=" + actorId +
+                ", castNum=" + castNum +
+                '}';
     }
 }
