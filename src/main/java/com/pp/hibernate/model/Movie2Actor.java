@@ -15,11 +15,11 @@ public class Movie2Actor {
 
     @OneToOne
     @JoinColumn(name = "movieid")
-    private Movie movieId;
+    private Movie movie;
 
     @OneToOne
     @JoinColumn(name = "actorid")
-    private Actor actorId;
+    private Actor actor;
 
     @Column(name = "cast_num")
     private int castNum;
@@ -27,27 +27,27 @@ public class Movie2Actor {
     public Movie2Actor() {
     }
 
-    public Movie2Actor(Movie movieId, Actor actorId, int castNum, int id) {
-        this.movieId = movieId;
-        this.actorId = actorId;
+    public Movie2Actor(Movie movie, Actor actor, int castNum, int id) {
+        this.movie = movie;
+        this.actor = actor;
         this.castNum = castNum;
         this.id = id;
     }
 
-    public Movie getMovieId() {
-        return movieId;
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setMovieId(Movie movieId) {
-        this.movieId = movieId;
+    public void setMovie(Movie movieId) {
+        this.movie = movieId;
     }
 
-    public Actor getActorId() {
-        return actorId;
+    public Actor getActor() {
+        return actor;
     }
 
-    public void setActorId(Actor actorId) {
-        this.actorId = actorId;
+    public void setActor(Actor actorId) {
+        this.actor = actorId;
     }
 
     public int getCastNum() {
@@ -69,8 +69,8 @@ public class Movie2Actor {
     @Override
     public String toString() {
         return "Movie2Actor{" +
-                "movieId=" + movieId +
-                ", actorId=" + actorId +
+                "movie=" + movie +
+                ", actor=" + actor +
                 ", castNum=" + castNum +
                 '}';
     }

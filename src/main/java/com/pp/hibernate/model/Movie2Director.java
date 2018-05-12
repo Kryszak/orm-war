@@ -15,11 +15,11 @@ public class Movie2Director {
 
     @OneToOne
     @JoinColumn(name = "movieid")
-    private Movie movieId;
+    private Movie movie;
 
     @OneToOne
     @JoinColumn(name = "directorid")
-    private Director directorId;
+    private Director director;
 
     @Column(name = "genre")
     private String genre;
@@ -27,27 +27,27 @@ public class Movie2Director {
     public Movie2Director() {
     }
 
-    public Movie2Director(Movie movieId, Director directorId, String genre, int id) {
-        this.movieId = movieId;
-        this.directorId = directorId;
+    public Movie2Director(Movie movie, Director directorId, String genre, int id) {
+        this.movie = movie;
+        this.director = directorId;
         this.genre = genre;
         this.id = id;
     }
 
-    public Movie getMovieId() {
-        return movieId;
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setMovieId(Movie movieId) {
-        this.movieId = movieId;
+    public void setMovie(Movie movieId) {
+        this.movie = movieId;
     }
 
-    public Director getDirectorId() {
-        return directorId;
+    public Director getDirector() {
+        return director;
     }
 
-    public void setDirectorId(Director directorId) {
-        this.directorId = directorId;
+    public void setDirector(Director directorId) {
+        this.director = directorId;
     }
 
     public String getGenre() {
@@ -69,8 +69,8 @@ public class Movie2Director {
     @Override
     public String toString() {
         return "Movie2Director{" +
-                "movieId=" + movieId +
-                ", directorId=" + directorId +
+                "movie=" + movie +
+                ", director=" + director +
                 ", genre='" + genre + '\'' +
                 '}';
     }

@@ -15,11 +15,11 @@ public class U2Base {
 
     @OneToOne
     @JoinColumn(name = "userid")
-    private User userId;
+    private User user;
 
     @OneToOne
     @JoinColumn(name = "movieid")
-    private Movie movieId;
+    private Movie movie;
 
     @Column(name = "rating")
     private String rating;
@@ -27,27 +27,27 @@ public class U2Base {
     public U2Base() {
     }
 
-    public U2Base(User userId, Movie movieId, String rating, int id) {
-        this.userId = userId;
-        this.movieId = movieId;
+    public U2Base(User user, Movie movieId, String rating, int id) {
+        this.user = user;
+        this.movie = movieId;
         this.rating = rating;
         this.id = id;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User userId) {
+        this.user = userId;
     }
 
-    public Movie getMovieId() {
-        return movieId;
+    public Movie getMovie() {
+        return movie;
     }
 
-    public void setMovieId(Movie movie) {
-        this.movieId = movie;
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     public String getRating() {
@@ -69,8 +69,8 @@ public class U2Base {
     @Override
     public String toString() {
         return "U2Base{" +
-                "userId=" + userId +
-                ", movieId=" + movieId +
+                "user=" + user +
+                ", movie=" + movie +
                 ", rating='" + rating + '\'' +
                 '}';
     }
