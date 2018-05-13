@@ -10,10 +10,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         MybatisDataMigrationTool migrationTool = new MybatisDataMigrationTool();
-        MyBatisDAO hibernateDAO = new MyBatisDAO();
+        MyBatisDAO myBatisDAO = new MyBatisDAO();
 
         migrationTool.migrateData();
-        hibernateDAO.test();
+        myBatisDAO.test();
 
     }
 
