@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 
-class MyBatisConnection {
+public class MyBatisConnection {
 
     private static SqlSessionFactory sqlSessionFactory;
 
@@ -21,7 +21,7 @@ class MyBatisConnection {
         }
     }
 
-    static SqlSessionFactory getSqlSessionFactory() {
+    public static SqlSessionFactory getSqlSessionFactory() {
         return sqlSessionFactory;
     }
 

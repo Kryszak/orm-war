@@ -1,6 +1,6 @@
 package com.pp.mybatis;
 
-import com.pp.mybatis.model.Test;
+import com.pp.mybatis.model.Actor;
 import org.apache.ibatis.session.SqlSession;
 
 public class MyBatisDAO {
@@ -11,17 +11,11 @@ public class MyBatisDAO {
         SqlSession sqlSession = MyBatisConnection.getSqlSessionFactory().openSession();
         MyBatisMapper mapper = sqlSession.getMapper(MyBatisMapper.class);
 
-        Test test = new Test("inserted from java into mybatis");
-
         // wywołanie
-        Test fromDB = mapper.testSelect();
-        mapper.createTable();
-        mapper.insertTest(test);
-        
-        System.out.println("Got response from DB: " + fromDB);
+        Actor actor = mapper.testActorSelect();
+        System.out.println("Got response from DB: " + actor);
 
         // commit i zamknięcie sesji
-        sqlSession.commit();
         sqlSession.close();
     }
 

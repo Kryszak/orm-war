@@ -19,6 +19,8 @@
     </environments>
 
     <mappers>
+        <mapper class="com.pp.mybatis.migration.CreateTablesMapper"/>
+        <mapper class="com.pp.mybatis.migration.InsertDataMapper"/>
         <mapper class="com.pp.mybatis.MyBatisMapper"/>
     </mappers>
 

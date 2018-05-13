@@ -1,7 +1,7 @@
 package com.pp;
 
-import com.pp.hibernate.HibernateDAO;
-import com.pp.hibernate.migration.HibernateDataMigrationTool;
+import com.pp.mybatis.MyBatisDAO;
+import com.pp.mybatis.migration.MybatisDataMigrationTool;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        HibernateDataMigrationTool migrationTool = new HibernateDataMigrationTool();
-        HibernateDAO hibernateDAO = new HibernateDAO();
+        MybatisDataMigrationTool migrationTool = new MybatisDataMigrationTool();
+        MyBatisDAO hibernateDAO = new MyBatisDAO();
 
         migrationTool.migrateData();
         hibernateDAO.test();
