@@ -1,0 +1,4 @@
+entity-packages: com.pp.ebean.model
+transactional-packages: none
+querybean-packages: none
+
