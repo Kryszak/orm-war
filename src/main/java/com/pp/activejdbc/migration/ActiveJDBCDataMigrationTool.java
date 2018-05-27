@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 import org.javalite.activejdbc.Base;
 
 import com.google.common.base.Stopwatch;
+import com.pp.TableContentRemover;
 import com.pp.TableCsvReader;
 
 public class ActiveJDBCDataMigrationTool {
@@ -33,6 +34,39 @@ public class ActiveJDBCDataMigrationTool {
 		System.out.println("Migrating data using ActiveJDBC ORM...");
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		
+		insertDataToTable();
+		
+		stopwatch.stop();
+		System.out.println("Data migrated using ActiveJDBC in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+		
+		Base.close();
+	}
+	
+	public void migrateDataMultipleTimes(int count) throws IOException {
+		Base.open("org.postgresql.Driver", "jdbc:postgresql://127.0.0.1:5432/activejdbc", "postgres", "postgres");
+		
+		TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/activejdbc", "postgres", "postgres");
+		tableContentRemover.flush();
+		
+		Stopwatch stopwatch = Stopwatch.createUnstarted();
+		long time = 0L;
+		for(int i=0; i<count; i++) {
+			stopwatch.start();
+			insertDataToTable();
+			stopwatch.stop();
+			
+			System.out.println("Data migrated using ActiveJDBC in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+			
+			tableContentRemover.flush();
+			time += stopwatch.elapsed(TimeUnit.MILLISECONDS);
+			stopwatch.reset();
+		}
+		
+		System.out.println("Data migrated " + count + " times using ActiveJDBC in " + time + " ms");
+		System.out.println("Avarage time is " + time/count + " ms");
+	}
+
+	private void insertDataToTable() throws IOException {
 		insertActors();
 		insertDirectors();
         insertMovies();
@@ -40,11 +74,6 @@ public class ActiveJDBCDataMigrationTool {
         insertMovies2Actors();
         insertMovies2Directors();
         insertU2Base();
-		
-		stopwatch.stop();
-		System.out.println("Data migrated using ActiveJDBC in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
-		
-		Base.close();
 	}
 	
 	private void insertActors() throws IOException {
