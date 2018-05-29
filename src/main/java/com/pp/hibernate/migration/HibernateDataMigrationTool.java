@@ -25,7 +25,7 @@ public class HibernateDataMigrationTool {
 
     private static final int BATCH_SIZE = 10000;
 
-    public void migrateData() throws IOException {
+    public long migrateData() throws IOException {
         System.out.println("Migrating data using Hibernate ORM...");
         Stopwatch stopwatch = Stopwatch.createStarted();
 
@@ -45,7 +45,10 @@ public class HibernateDataMigrationTool {
         insertU2Base();
 
         stopwatch.stop();
-        System.out.println("Data migrated using Hibernate in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+
+        long elapsed = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        System.out.println("Data migrated using Hibernate in " + elapsed + " ms");
+        return elapsed;
     }
 
     private void insertActors() throws IOException {
