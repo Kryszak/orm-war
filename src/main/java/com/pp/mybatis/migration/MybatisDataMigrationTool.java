@@ -21,7 +21,7 @@ public class MybatisDataMigrationTool {
 
     private static final int BATCH_SIZE = 10000;
 
-    public void migrateData() throws IOException {
+    public long migrateData() throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         System.out.println("Creating tables.");
         createTables();
@@ -30,7 +30,9 @@ public class MybatisDataMigrationTool {
 
         stopwatch.stop();
 
-        System.out.println("MyBatis data migration finished in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms.");
+        long elapsed = stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        System.out.println("MyBatis data migration finished in " + elapsed + " ms.");
+        return elapsed;
     }
 
     private void createTables() {
