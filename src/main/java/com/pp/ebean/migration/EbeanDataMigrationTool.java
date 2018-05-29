@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Stopwatch;
+import com.pp.TableContentRemover;
 import com.pp.TableCsvReader;
 import com.pp.ebean.model.Actor;
 import com.pp.ebean.model.Director;
@@ -40,27 +41,58 @@ public class EbeanDataMigrationTool {
 	private EbeanServer ebeanServer;
 	
 	private TableCsvReader tableCsvReader = new TableCsvReader();
-
 	
 	public void migrateData() throws IOException {
-	    config.setDefaultServer(true);
-	    config.loadFromProperties();
-	    
-	    ebeanServer = EbeanServerFactory.create(config);	    
+	    connectToEbeanServer();	    
 	    
 		System.out.println("Migrating data using Ebean ORM...");
         Stopwatch stopwatch = Stopwatch.createStarted();
         
-        insertActors();
+        insertDataToTables();
+
+        stopwatch.stop();
+        System.out.println("Data migrated using Ebean in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+	}
+	
+	public void migrateDataMultipleTimes(int count) throws IOException {
+		connectToEbeanServer();
+		
+		TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/ebean", "postgres", "postgres");
+		tableContentRemover.flush();
+		
+		Stopwatch stopwatch = Stopwatch.createUnstarted();
+		long time = 0L;
+		for(int i=0; i<count; i++) {
+			stopwatch.start();
+			insertDataToTables();
+			stopwatch.stop();
+			
+			System.out.println("Data migrated using Ebean in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+			
+			tableContentRemover.flush();
+			time += stopwatch.elapsed(TimeUnit.MILLISECONDS);
+			stopwatch.reset();
+		}
+		
+		System.out.println("Data migrated " + count + " times using Ebean in " + time + " ms");
+		System.out.println("Avarage time is " + time/count + " ms");
+	}
+	
+	private void connectToEbeanServer() {
+		config.setDefaultServer(true);
+	    config.loadFromProperties();
+	    
+	    ebeanServer = EbeanServerFactory.create(config);
+	}
+	
+	private void insertDataToTables() throws IOException {
+		insertActors();
         insertDirectors();
         insertMovies();
         insertUsers();
         insertMovies2Actors();
         insertMovies2Directors();
         insertU2Base();
-
-        stopwatch.stop();
-        System.out.println("Data migrated using Ebean in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 	}
 	
 	private void insertActors() throws IOException {
