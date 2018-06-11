@@ -1,9 +1,9 @@
 package com.pp.hibernate;
 
+import java.io.IOException;
+
 import com.pp.ORMStats;
 import com.pp.hibernate.migration.HibernateDataMigrationTool;
-
-import java.io.IOException;
 
 public class HibernateTest {
 
@@ -11,43 +11,44 @@ public class HibernateTest {
 
     private HibernateDAO hibernateDAO = new HibernateDAO();
 
-    public ORMStats testHibernate() throws IOException {
-
-        ORMStats stats = new ORMStats();
-
+    public ORMStats testHibernate(int count) throws IOException {		
+    	ORMStats stats = new ORMStats();
         stats.setOrmName("Hibernate");
-
-        testInsert(stats);
         
-        testSelectSingle(stats);
+		for(int i=0; i<count; i++) {
+	        testInsert(stats);
+	        
+	        testSelectSingle(stats);
 
-        testSelectJoin(stats);
+	        testSelectJoin(stats);
 
-        testUpdate(stats);
+	        testUpdate(stats);
 
-        System.out.println("Hibernate evaluation: " + stats);
+	        System.out.println("Hibernate evaluation: " + stats);
+		}
+        
 
         return stats;
     }
 
     private void testUpdate(ORMStats stats) {
         long elapsed = hibernateDAO.update();
-        stats.setUpdateTime(elapsed);
+        stats.addUpdateTime(elapsed);
     }
 
     private void testSelectJoin(ORMStats stats) {
         long elapsed = hibernateDAO.selectJoin();
-        stats.setSelectJoinTime(elapsed);
+        stats.addSelectJoinTime(elapsed);
     }
 
     private void testSelectSingle(ORMStats stats) {
         long elapsed = hibernateDAO.selectSingle();
-        stats.setSelectSingleTime(elapsed);
+        stats.addSelectSingleTime(elapsed);
 
     }
 
     private void testInsert(ORMStats stats) throws IOException {
         long insertTime = dataMigrationTool.migrateData();
-        stats.setInsertTime(insertTime);
+        stats.addInsertTime(insertTime);
     }
 }

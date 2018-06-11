@@ -1,6 +1,7 @@
 package com.pp.mybatis.migration;
 
 import com.google.common.base.Stopwatch;
+import com.pp.TableContentRemover;
 import com.pp.TableCsvReader;
 import com.pp.mybatis.MyBatisConnection;
 import com.pp.mybatis.model.*;
@@ -22,6 +23,9 @@ public class MybatisDataMigrationTool {
     private static final int BATCH_SIZE = 10000;
 
     public long migrateData() throws IOException {
+    	TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/mybatis", "postgres", "postgres");
+		tableContentRemover.flush();
+		
         Stopwatch stopwatch = Stopwatch.createStarted();
         System.out.println("Creating tables.");
         createTables();

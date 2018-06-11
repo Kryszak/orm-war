@@ -42,7 +42,10 @@ public class EbeanDataMigrationTool {
 	
 	private TableCsvReader tableCsvReader = new TableCsvReader();
 	
-	public void migrateData() throws IOException {
+	public long migrateData() throws IOException {		
+		TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/ebean", "postgres", "postgres");
+		tableContentRemover.flush();
+		
 	    connectToEbeanServer();	    
 	    
 		System.out.println("Migrating data using Ebean ORM...");
@@ -52,9 +55,11 @@ public class EbeanDataMigrationTool {
 
         stopwatch.stop();
         System.out.println("Data migrated using Ebean in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
+        
+        return stopwatch.elapsed(TimeUnit.MILLISECONDS);
 	}
 	
-	public void migrateDataMultipleTimes(int count) throws IOException {
+	public long migrateDataMultipleTimes(int count) throws IOException {
 		connectToEbeanServer();
 		
 		TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/ebean", "postgres", "postgres");
@@ -76,6 +81,8 @@ public class EbeanDataMigrationTool {
 		
 		System.out.println("Data migrated " + count + " times using Ebean in " + time + " ms");
 		System.out.println("Avarage time is " + time/count + " ms");
+		
+		return time;
 	}
 	
 	private void connectToEbeanServer() {

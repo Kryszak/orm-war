@@ -28,7 +28,10 @@ public class ActiveJDBCDataMigrationTool {
 	
 	private TableCsvReader tableCsvReader = new TableCsvReader();
 
-	public void migrateData() throws IOException {
+	public long migrateData() throws IOException {
+		TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/activejdbc", "postgres", "postgres");
+		tableContentRemover.flush();
+		
 		Base.open("org.postgresql.Driver", "jdbc:postgresql://127.0.0.1:5432/activejdbc", "postgres", "postgres");
 		
 		System.out.println("Migrating data using ActiveJDBC ORM...");
@@ -40,9 +43,11 @@ public class ActiveJDBCDataMigrationTool {
 		System.out.println("Data migrated using ActiveJDBC in " + stopwatch.elapsed(TimeUnit.MILLISECONDS) + " ms");
 		
 		Base.close();
+		
+		return stopwatch.elapsed(TimeUnit.MILLISECONDS);
 	}
 	
-	public void migrateDataMultipleTimes(int count) throws IOException {
+	public long migrateDataMultipleTimes(int count) throws IOException {
 		Base.open("org.postgresql.Driver", "jdbc:postgresql://127.0.0.1:5432/activejdbc", "postgres", "postgres");
 		
 		TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/activejdbc", "postgres", "postgres");
@@ -64,6 +69,8 @@ public class ActiveJDBCDataMigrationTool {
 		
 		System.out.println("Data migrated " + count + " times using ActiveJDBC in " + time + " ms");
 		System.out.println("Avarage time is " + time/count + " ms");
+		
+		return time;
 	}
 
 	private void insertDataToTable() throws IOException {
@@ -85,11 +92,11 @@ public class ActiveJDBCDataMigrationTool {
     }
 
     private void insertMovies() throws IOException {
-        insertData(MOVIES_TABLE_FILE, "INSERT INTO movies(movieid,year,isenglish,country,runningtime) VALUES (?,?,?,?,?)", this::saveMovie);
+        insertData(MOVIES_TABLE_FILE, "INSERT INTO movies(id,year,isenglish,country,runningtime) VALUES (?,?,?,?,?)", this::saveMovie);
     }
 
     private void insertUsers() throws IOException {
-        insertData(USERS_TABLE_FILE, "INSERT INTO users(userid, age,u_gender,occupation) VALUES(?,?,?,?)", this::saveUser);
+        insertData(USERS_TABLE_FILE, "INSERT INTO users(id, age,u_gender,occupation) VALUES(?,?,?,?)", this::saveUser);
     }
 	
     private void insertMovies2Actors() throws IOException {
@@ -101,7 +108,7 @@ public class ActiveJDBCDataMigrationTool {
     }
 
     private void insertU2Base() throws IOException {
-        insertData(U2BASE_TABLE_FILE, "INSERT INTO u2base(userid,movieid,rating) VALUES(?,?,?)", this::saveU2Base);
+        insertData(U2BASE_TABLE_FILE, "INSERT INTO u2base(user_id,movie_id,rating) VALUES(?,?,?)", this::saveU2Base);
     }
 	
 	private void insertData(String file, String insertQuery, BiConsumer<PreparedStatement, String[]> consumer) {

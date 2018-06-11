@@ -1,58 +1,53 @@
 package com.pp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ORMStats {
 
     private String ormName;
 
-    private double insertTime;
+    private List<Double> insertTime = new ArrayList<>();
 
-    private double selectSingleTime;
+    private List<Double> selectSingleTime = new ArrayList<>();
 
-    private double selectJoinTime;
+    private List<Double> selectJoinTime = new ArrayList<>();
 
-    private double updateTime;
+    private List<Double> updateTime = new ArrayList<>();
 
     public ORMStats() {
     }
 
-    public ORMStats(String ormName, double insertTime, double selectSingleTime, double selectJoinTime, double updateTime) {
-        this.ormName = ormName;
-        this.insertTime = insertTime;
-        this.selectSingleTime = selectSingleTime;
-        this.selectJoinTime = selectJoinTime;
-        this.updateTime = updateTime;
-    }
-
-    public double getInsertTime() {
+    public List<Double> getInsertTime() {
         return insertTime;
     }
 
-    public void setInsertTime(double insertTime) {
-        this.insertTime = insertTime;
+    public void addInsertTime(double insertTime) {
+        this.insertTime.add(insertTime);
     }
 
-    public double getSelectSingleTime() {
+    public List<Double> getSelectSingleTime() {
         return selectSingleTime;
     }
 
-    public void setSelectSingleTime(double selectSingleTime) {
-        this.selectSingleTime = selectSingleTime;
+    public void addSelectSingleTime(double selectSingleTime) {
+        this.selectSingleTime.add(selectSingleTime);
     }
 
-    public double getSelectJoinTime() {
+    public List<Double> getSelectJoinTime() {
         return selectJoinTime;
     }
 
-    public void setSelectJoinTime(double selectJoinTime) {
-        this.selectJoinTime = selectJoinTime;
+    public void addSelectJoinTime(double selectJoinTime) {
+        this.selectJoinTime.add(selectJoinTime);
     }
 
-    public double getUpdateTime() {
+    public List<Double> getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(double updateTime) {
-        this.updateTime = updateTime;
+    public void addUpdateTime(double updateTime) {
+        this.updateTime.add(updateTime);
     }
 
     public String getOrmName() {

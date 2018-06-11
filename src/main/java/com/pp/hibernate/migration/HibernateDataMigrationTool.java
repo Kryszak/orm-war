@@ -1,6 +1,7 @@
 package com.pp.hibernate.migration;
 
 import com.google.common.base.Stopwatch;
+import com.pp.TableContentRemover;
 import com.pp.TableCsvReader;
 import com.pp.hibernate.HibernateConnection;
 import com.pp.hibernate.model.Actor;
@@ -26,6 +27,9 @@ public class HibernateDataMigrationTool {
     private static final int BATCH_SIZE = 10000;
 
     public long migrateData() throws IOException {
+    	TableContentRemover tableContentRemover = new TableContentRemover("jdbc:postgresql://127.0.0.1:5432/hibernate", "postgres", "postgres");
+		tableContentRemover.flush();
+		
         System.out.println("Migrating data using Hibernate ORM...");
         Stopwatch stopwatch = Stopwatch.createStarted();
 

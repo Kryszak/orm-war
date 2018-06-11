@@ -19,9 +19,9 @@ import io.ebean.Model;
 })
 public class U2Base extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    //private int id;
 
     @OneToOne
     @JoinColumn(name = "userid")
@@ -41,7 +41,7 @@ public class U2Base extends Model {
         this.user = user;
         this.movie = movieId;
         this.rating = rating;
-        this.id = id;
+        //this.id = id;
     }
 
     public User getUser() {
@@ -68,13 +68,13 @@ public class U2Base extends Model {
         this.rating = rating;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     @Override
     public String toString() {

@@ -27,7 +27,7 @@ public class TableContentRemover {
 		try {
 			Class.forName("org.postgresql.Driver");
 
-			System.out.println("Connecting to database...");
+			System.out.println("Deleting data...");
 			connection = DriverManager.getConnection(dbUrl, user, password);
 
 			statement = connection.createStatement();

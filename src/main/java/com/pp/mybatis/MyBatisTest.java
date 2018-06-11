@@ -1,9 +1,9 @@
 package com.pp.mybatis;
 
+import java.io.IOException;
+
 import com.pp.ORMStats;
 import com.pp.mybatis.migration.MybatisDataMigrationTool;
-
-import java.io.IOException;
 
 public class MyBatisTest {
 
@@ -11,41 +11,43 @@ public class MyBatisTest {
 
     private MyBatisDAO myBatisDAO = new MyBatisDAO();
 
-    public ORMStats testMyBatis() throws IOException {
-        ORMStats stats = new ORMStats();
-
+    public ORMStats testMyBatis(int count) throws IOException {
+    	ORMStats stats = new ORMStats();
         stats.setOrmName("MyBatis");
+        
+		for(int i=0; i<count; i++) {
+	        testInsert(stats);
 
-        testInsert(stats);
+	        testSelectSingle(stats);
 
-        testSelectSingle(stats);
+	        testSelectJoin(stats);
 
-        testSelectJoin(stats);
+	        testUpdate(stats);
 
-        testUpdate(stats);
-
-        System.out.println("MyBatis evaluation: " + stats);
+	        System.out.println("MyBatis evaluation: " + stats);
+		}
+        
 
         return stats;
     }
 
     private void testUpdate(ORMStats stats) {
         long elapsed = myBatisDAO.update();
-        stats.setUpdateTime(elapsed);
+        stats.addUpdateTime(elapsed);
     }
 
     private void testSelectJoin(ORMStats stats) {
         long elapsed = myBatisDAO.selectJoin();
-        stats.setSelectJoinTime(elapsed);
+        stats.addSelectJoinTime(elapsed);
     }
 
     private void testSelectSingle(ORMStats stats) {
         long elapsed = myBatisDAO.selectSingle();
-        stats.setSelectSingleTime(elapsed);
+        stats.addSelectSingleTime(elapsed);
     }
 
     private void testInsert(ORMStats stats) throws IOException {
         long elapsed = dataMigrationTool.migrateData();
-        stats.setInsertTime(elapsed);
+        stats.addInsertTime(elapsed);
     }
 }
